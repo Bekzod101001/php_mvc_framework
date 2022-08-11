@@ -1,0 +1,44 @@
+version: '3'
+
+
+services:
+
+  php:
+    image: php:8.1-fpm
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - './src:/var/www/html'
+  nginx:
+    depends_on:
+      - database
+      - php
+    image: nginx:latest
+    volumes:
+      - './src:/var/www/html'
+      - './docker/nginx/conf.d:/etc/nginx/conf.d'
+    ports:
+      - "80:80"
+
+  database:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: php_mvc
+      MYSQL_USER: php_mvc_user
+      MYSQL_PASSWORD: blablabla
+      MYSQL_ROOT_PASSWORD: secret
+    ports:
+      - "3306:3306"
+    volumes:
+      - './mysql:/var/lib/mysql'
+  composer:
+    image: composer:latest
+    depends_on:
+      - php
+      - nginx
+      - database
+    volumes:
+      - './src:/var/www/html'
+    working_dir: /var/www/html
+    command: composer install

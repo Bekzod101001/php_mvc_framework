@@ -1,0 +1,19 @@
+{
+    "name": "itprogressuz/php-mvc",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Bekzod",
+            "email": "bekzod101001@gmail.com"
+        }
+    ],
+    "autoload": {
+      "psr-4": {
+        "app\\": "./"
+      }
+    },
+    "require": {
+        "vlucas/phpdotenv": "^5.4",
+      "ext-pdo": "*"
+    }
+}
